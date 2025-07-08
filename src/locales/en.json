@@ -1,0 +1,58 @@
+{
+  "home": {
+    "title": "Welcome",
+    "message": "This is your feedback app"
+  },
+  "menu": {
+    "title": "Feedback App",
+    "language": "Select Language",
+    "home": "Home",
+    "feedbackList": "Feedback List",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "langEng": "English",
+    "langHin": "हिंदी"
+  },
+  "feedback": {
+    "submitFeedback": "Submit Feedback",
+    "submitAnonymously": "Submit Anonymously",
+    "messageRequired": "Message is required",
+    "feedback": "Your feedback..."
+  },
+  "login": {
+    "title": "Admin Login",
+    "passwordLabel": "Password",
+    "emailLabel": "Email",
+    "passwordRequired": "Password is required",
+    "login": "Login",
+    "passwordPlaceholder": "Enter your password",
+    "emailPlaceholder": "Enter your email"
+  },
+  "register": {
+    "title": "Register",
+    "email": "Email",
+    "password": "Password",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "register": "Register"
+  },
+  "feedbackList": {
+    "title": "All Feedbacks",
+    "date": "Date",
+    "email": "Email",
+    "message": "Message",
+    "name": "Name",
+    "page": "Page",
+    "of": "of",
+    "noFeedback": "No feedbacks found"
+  },
+  "common": {
+    "name": "Name",
+    "email": "Email",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Invalid email",
+    "submit": "Submit"
+  }
+}

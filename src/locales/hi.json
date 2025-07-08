@@ -1,0 +1,58 @@
+{
+  "home": {
+    "title": "स्वागत है",
+    "message": "यह आपका फीडबैक ऐप है"
+  },
+  "menu": {
+    "title": "फीडबैक ऐप",
+    "language": "भाषा चुनें",
+    "home": "मुखपृष्ठ",
+    "feedbackList": "फीडबैक सूची",
+    "login": "लॉगिन",
+    "logout": "लॉगआउट",
+    "register": "रजिस्टर",
+    "langEng": "English",
+    "langHin": "हिंदी"
+  },
+  "feedback": {
+    "submitFeedback": "फीडबैक सबमिट करें",
+    "submitAnonymously": "गुमनाम रूप से सबमिट करें",
+    "messageRequired": "संदेश आवश्यक है",
+    "feedback": "आपका फीडबैक..."
+  },
+  "login": {
+    "title": "प्रशासक लॉगिन",
+    "passwordLabel": "पासवर्ड",
+    "emailLabel": "ईमेल",
+    "passwordRequired": "पासवर्ड आवश्यक है",
+    "login": "लॉगिन",
+    "passwordPlaceholder": "अपना पासवर्ड दर्ज करें",
+    "emailPlaceholder": "अपना ईमेल दर्ज करें"
+  },
+  "register": {
+    "title": "पंजीकरण करें",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "emailRequired": "ईमेल आवश्यक है",
+    "passwordRequired": "पासवर्ड आवश्यक है",
+    "register": "पंजीकरण करें"
+  },
+  "feedbackList": {
+    "title": "सभी फीडबैक",
+    "date": "तारीख",
+    "email": "ईमेल",
+    "message": "संदेश",
+    "name": "नाम",
+    "page": "पृष्ठ",
+    "of": "में से",
+    "noFeedback": "कोई फीडबैक नहीं मिला"
+  },
+  "common": {
+    "name": "नाम",
+    "email": "ईमेल",
+    "nameRequired": "नाम आवश्यक है",
+    "emailRequired": "ईमेल आवश्यक है",
+    "invalidEmail": "अमान्य ईमेल",
+    "submit": "सबमिट करें"
+  }
+}

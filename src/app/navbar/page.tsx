@@ -2,11 +2,14 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+// import LanguageSwitcher from "../component/languageSwitch";
+import { useTranslations } from "next-intl";
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const t = useTranslations("menu");
 
   // const isLoggedIn = localStorage?.getItem("token") || false;
 
@@ -17,7 +20,7 @@ export default function Navbar() {
     } else {
       setIsLoggedIn(false);
     }
-  }, []);
+  }, [pathname]);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -29,10 +32,13 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow p-4 flex justify-between items-center">
-      <div className="text-lg font-bold text-blue-700">Feedback App</div>
+      <div className="text-lg font-bold text-blue-700">{t("title")}</div>
+      {/* <div className="space-x-4">
+        <LanguageSwitcher />
+      </div> */}
       <div className="space-x-4">
         <Link href="/" className={navStyle("/")}>
-          Home
+          {t("home")}
         </Link>
         {/* {!isLoggedIn && (
           <>
@@ -43,7 +49,7 @@ export default function Navbar() {
         )} */}
         {!isLoggedIn && (
           <Link href="/login" className={navStyle("/login")}>
-            Login
+            {t("login")}
           </Link>
         )}
         {isLoggedIn && (
@@ -52,7 +58,7 @@ export default function Navbar() {
               href="/feedbacks/list"
               className={navStyle("/feedbacks/list")}
             >
-              Feedback List
+              {t("feedbackList")}
             </Link>
           </>
         )}
@@ -62,7 +68,7 @@ export default function Navbar() {
               onClick={logout}
               className="text-red-600 font-semibold ml-2"
             >
-              Logout
+              {t("logout")}
             </button>
           </>
         )}

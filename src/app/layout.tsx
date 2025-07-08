@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getLocale } from "next-intl/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +23,7 @@ export const metadata: Metadata = {
 import { connectToDatabase } from "@/lib/dbConnect";
 import Navbar from "./navbar/page";
 import ToasterProvider from "./component/ToasterProvider";
+import LanguageSwitcher from "./component/languageSwitch";
 
 // ✅ Connect to MongoDB once when server starts
 connectToDatabase()
@@ -30,21 +33,63 @@ connectToDatabase()
   .catch((err) => {
     console.error("❌ MongoDB failed to connect at startup:", err);
   });
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = (await getLocale()) || "en";
+  const messages = await getMessages();
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NextTopLoader />
-        <ToasterProvider />
-        <Navbar />
-        {children}
+      <body className="h-screen overflow-hidden">
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <NextTopLoader />
+          <ToasterProvider />
+
+          {/* Header */}
+          <header className="h-14 bg-white shadow z-10">
+            <Navbar />
+          </header>
+
+          {/* Main content: full height minus header and footer */}
+          <main
+            className="overflow-y-auto bg-gray-100"
+            style={{ height: "calc(100vh - 60px - 64px)" }} // subtract header (64px) and footer (56px)
+          >
+            {children}
+          </main>
+
+          {/* Footer */}
+          <footer className="h-16 bg-gray-100 border-t py-4">
+            <div className="container mx-auto flex justify-center">
+              <LanguageSwitcher />
+            </div>
+          </footer>
+        </NextIntlClientProvider>
       </body>
     </html>
+
+    // <html lang="en">
+    //   <body className="min-h-screen flex flex-col">
+    //     <NextIntlClientProvider locale={locale} messages={messages}>
+    //       <NextTopLoader />
+    //       <ToasterProvider />
+    //       <Navbar />
+
+    //       {/* Main content expands to fill space */}
+    //       <main className="flex-grow overflow-y-auto bg-gray-100">
+    //         <div className="max-h-screen overflow-y-auto">{children}</div>
+    //       </main>
+
+    //       {/* Sticky Footer */}
+    //       <footer className="bg-gray-100 border-t py-4">
+    //         <div className="container mx-auto flex justify-center">
+    //           <LanguageSwitcher />
+    //         </div>
+    //       </footer>
+    //     </NextIntlClientProvider>
+    //   </body>
+    // </html>
   );
 }

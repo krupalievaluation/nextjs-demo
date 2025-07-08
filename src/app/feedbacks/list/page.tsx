@@ -12,6 +12,7 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslations } from "next-intl";
 
 type feedback = {
   message: string;
@@ -26,6 +27,7 @@ export default function AllFeedback() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const perPage = 5;
+  const t = useTranslations("feedbackList");
 
   useEffect(() => {
     const token = localStorage?.getItem("token");
@@ -69,7 +71,7 @@ export default function AllFeedback() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">All Feedback</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
 
       {isLoading && (
         <>
@@ -78,55 +80,70 @@ export default function AllFeedback() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
-                  <TableHead>Message</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
+                  <TableHead>{t("message")}</TableHead>
+                  <TableHead>{t("name")}</TableHead>
+                  <TableHead>{t("email")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {feedbacks.map((f, i) => (
-                  <TableRow key={i} className="hover:bg-muted/50">
-                    <TableCell className="font-medium px-5 py-3">
-                      {(currentPage - 1) * perPage + i + 1}
-                    </TableCell>
-                    <TableCell className="px-5 py-3">{f.message}</TableCell>
-                    <TableCell className="px-5 py-3">{f.name || "-"}</TableCell>
-                    <TableCell className="px-5 py-3">
-                      {f.email || "-"}
+                {feedbacks?.length > 0 &&
+                  feedbacks?.map((f, i) => (
+                    <TableRow key={i} className="hover:bg-muted/50">
+                      <TableCell className="font-medium px-5 py-3">
+                        {(currentPage - 1) * perPage + i + 1}
+                      </TableCell>
+                      <TableCell className="px-5 py-3">{f.message}</TableCell>
+                      <TableCell className="px-5 py-3">
+                        {f.name || "-"}
+                      </TableCell>
+                      <TableCell className="px-5 py-3">
+                        {f.email || "-"}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                {feedbacks?.length === 0 && (
+                  <TableRow className="hover:bg-muted/50">
+                    <TableCell
+                      className="font-medium px-5 py-3 text-center"
+                      colSpan={4}
+                    >
+                      {t("noFeedback")}
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </div>
 
           {/* Pagination */}
-          <div className="mt-6 flex items-center justify-center text-sm">
-            {/* Previous */}
-            <Button
-              onClick={handlePrev}
-              disabled={currentPage === 1}
-              variant="secondary"
-              size="icon"
-              className="size-8"
-            >
-              <ChevronLeftIcon />
-            </Button>
+          {feedbacks?.length > 0 && (
+            <div className="mt-6 flex items-center justify-center text-sm">
+              {/* Previous */}
+              <Button
+                onClick={handlePrev}
+                disabled={currentPage === 1}
+                variant="secondary"
+                size="icon"
+                className="size-8"
+              >
+                <ChevronLeftIcon />
+              </Button>
 
-            {/* Page Info */}
-            <span className="mx-2">
-              Page {currentPage} of {totalPages}
-            </span>
-            <Button
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
-              variant="secondary"
-              size="icon"
-              className="size-8"
-            >
-              <ChevronRightIcon />
-            </Button>
-          </div>
+              {/* Page Info */}
+              <span className="mx-2">
+                {t("page")} {currentPage} {t("of")} {totalPages}
+              </span>
+              <Button
+                onClick={handleNext}
+                disabled={currentPage === totalPages}
+                variant="secondary"
+                size="icon"
+                className="size-8"
+              >
+                <ChevronRightIcon />
+              </Button>
+            </div>
+          )}
         </>
       )}
       {!isLoading && (
@@ -135,9 +152,9 @@ export default function AllFeedback() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
-                <TableHead>Message</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
+                <TableHead>{t("message")}</TableHead>
+                <TableHead>{t("name")}</TableHead>
+                <TableHead>{t("email")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

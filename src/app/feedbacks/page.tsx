@@ -8,19 +8,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
+import { useTranslations } from "next-intl";
 
 export default function FeedbackForm() {
+  // const locale = useLocale();
   const [isAnonymous, setIsAnonymous] = useState(false);
-
-  // Yup schema: only `message` is required
+  const tf = useTranslations("feedback");
+  const tc = useTranslations("common");
   const schema = yup.object().shape({
     name: isAnonymous
       ? yup.string().optional()
-      : yup.string().required("Name is required"),
+      : yup.string().required("nameRequired"),
     email: isAnonymous
-      ? yup.string().email("Invalid email").optional()
-      : yup.string().email("Invalid email").required("Email is required"),
-    message: yup.string().required("Message is required")
+      ? yup.string().email("invalidEmail").optional()
+      : yup.string().email("invalidEmail").required("emailRequired"),
+    message: yup.string().required("messageRequired")
   });
   const {
     register,
@@ -61,15 +63,17 @@ export default function FeedbackForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center h-full bg-gray-100 px-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow p-6 rounded w-full max-w-md space-y-5"
       >
-        <h2 className="text-xl text-gray-800 font-bold">Submit Feedback</h2>
+        <h2 className="text-xl text-gray-800 font-bold">
+          {tf("submitFeedback")}
+        </h2>
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium text-gray-700">
-            Submit Anonymously
+            {tf("submitAnonymously")}
           </label>
           <label className="relative inline-flex items-center cursor-pointer">
             <Switch
@@ -90,14 +94,16 @@ export default function FeedbackForm() {
               !isAnonymous && errors.name ? "border-red-500" : "border-gray-300"
             }`}
             type="text"
-            placeholder="Name (optional)"
+            placeholder={tc("name")}
             {...register("name", {
-              required: !isAnonymous ? "Name is required" : false
+              required: !isAnonymous ? tc("nameRequired") : false
             })}
             disabled={isAnonymous}
           />
           {!isAnonymous && errors.name && (
-            <p className="text-red-500 text-sm">{errors.name.message}</p>
+            <p className="text-red-500 text-sm">
+              {tc(errors.name.message || "nameRequired")}
+            </p>
           )}
         </div>
 
@@ -109,18 +115,20 @@ export default function FeedbackForm() {
                 ? "border-red-500"
                 : "border-gray-300"
             }`}
-            placeholder="Email"
+            placeholder={tc("email")}
             {...register("email", {
-              required: !isAnonymous ? "Email is required" : false,
+              required: !isAnonymous ? tc("emailRequired") : false,
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Invalid email"
+                message: tc("invalidEmail")
               }
             })}
             disabled={isAnonymous}
           />
           {!isAnonymous && errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {tc(errors.email.message || "emailRequired")}
+            </p>
           )}
         </div>
 
@@ -130,11 +138,13 @@ export default function FeedbackForm() {
             className={`w-full px-3 py-2 text-gray-800 border rounded ${
               errors.message ? "border-red-500" : "border-gray-300"
             }`}
-            placeholder="Your feedback..."
+            placeholder={tf("feedback")}
             {...register("message")}
           />
           {errors.message && (
-            <p className="text-red-500 text-sm">{errors.message.message}</p>
+            <p className="text-red-500 text-sm">
+              {tf(errors.message.message || "messageRequired")}
+            </p>
           )}
         </div>
 
