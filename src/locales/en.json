@@ -18,7 +18,8 @@
     "submitFeedback": "Submit Feedback",
     "submitAnonymously": "Submit Anonymously",
     "messageRequired": "Message is required",
-    "feedback": "Your feedback..."
+    "feedback": "Your feedback...",
+    "submit": "Submit"
   },
   "login": {
     "title": "Admin Login",
@@ -43,6 +44,7 @@
     "email": "Email",
     "message": "Message",
     "name": "Name",
+    "createdAt": "Created At",
     "page": "Page",
     "of": "of",
     "noFeedback": "No feedbacks found"

@@ -9,7 +9,12 @@ export default function Spinner({
   return (
     <div className="flex justify-center items-center">
       <div
-        className={`w-${size} h-${size} border-4 border-${color}-500 border-t-transparent rounded-full animate-spin`}
+        style={{
+          width: `${size}rem`,
+          height: `${size}rem`,
+          borderWidth: "3px"
+        }}
+        className={`border-2 border-${color}-500 border-t-transparent rounded-full animate-spin`}
       ></div>
     </div>
   );

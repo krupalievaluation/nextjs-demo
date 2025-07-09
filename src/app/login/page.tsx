@@ -38,7 +38,7 @@ export default function LoginPage() {
     });
 
     const result = await res.json();
-    if (res) {
+    if (result.token) {
       localStorage.setItem("token", result.token);
       router.push("/feedbacks/list");
     } else {
@@ -99,7 +99,7 @@ export default function LoginPage() {
           type="submit"
           className="w-full bg-blue-600 text-white py-2 px-4 text-[16px] rounded hover:bg-blue-700 transition "
         >
-          {loading && <Spinner size={6} color="white" />}
+          {loading && <Spinner size={1} color="white" />}
           {tl("login")}
         </Button>
       </form>

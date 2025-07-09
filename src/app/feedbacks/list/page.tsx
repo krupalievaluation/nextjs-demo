@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,11 +17,19 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
+import moment from "moment";
 
 type feedback = {
   message: string;
   name?: string;
   email?: string;
+  createdAt?: Date;
 };
 
 export default function AllFeedback() {
@@ -28,22 +40,38 @@ export default function AllFeedback() {
   const [isLoading, setIsLoading] = useState(false);
   const perPage = 5;
   const t = useTranslations("feedbackList");
+  const [date, setDate] = useState<Date | null>();
+  const [open, setOpen] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
+  // ✅ Load token on mount
   useEffect(() => {
-    const token = localStorage?.getItem("token");
-    if (!token) {
+    const storedToken = localStorage.getItem("token");
+    if (!storedToken) {
       router.push("/login");
-      return;
+    } else {
+      setToken(storedToken);
     }
-
-    fetchFeedbacks(currentPage);
   }, []);
 
+  // ✅ Fetch only if token is available
+  useEffect(() => {
+    if (token) {
+      fetchFeedbacks(currentPage);
+    }
+  }, [token, date, currentPage]);
+
   const fetchFeedbacks = (page: number) => {
+    const formattedDate = date ? moment(date).format("YYYY-MM-DD") : null;
     setIsLoading(true);
-    fetch(`/api/feedback?page=${page}&limit=${perPage}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-    })
+    fetch(
+      formattedDate
+        ? `/api/feedback?page=${page}&limit=${perPage}&date=${formattedDate}`
+        : `/api/feedback?page=${page}&limit=${perPage}`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setFeedbacks(data.feedbackList);
@@ -52,10 +80,6 @@ export default function AllFeedback() {
       .catch(() => alert("Error fetching feedbacks"));
     // .finally(() => setIsLoading(false));
   };
-
-  useEffect(() => {
-    fetchFeedbacks(currentPage);
-  }, [currentPage]);
 
   const handleNext = () => {
     if (currentPage < totalPages) {
@@ -71,8 +95,42 @@ export default function AllFeedback() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+        <h1 className="text-2xl font-bold mb-6">{t("title")}</h1>
 
+        <div>
+          <label htmlFor="date" className="px-1">
+            Date Filter:
+          </label>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                id="date"
+                className="w-48 justify-between font-normal"
+              >
+                {date ? moment(date).format("DD MMM YYYY") : "Select date"}
+                <ChevronDownIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-auto overflow-hidden p-0"
+              align="start"
+            >
+              <Calendar
+                mode="single"
+                selected={date ? date : undefined}
+                captionLayout="dropdown"
+                onSelect={(date) => {
+                  setDate(date);
+                  setOpen(false);
+                  setCurrentPage(1);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
       {isLoading && (
         <>
           <div className="overflow-x-auto w-full mt-6 shadow rounded-lg bg-white ">
@@ -83,6 +141,7 @@ export default function AllFeedback() {
                   <TableHead>{t("message")}</TableHead>
                   <TableHead>{t("name")}</TableHead>
                   <TableHead>{t("email")}</TableHead>
+                  <TableHead>{t("createdAt")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -99,13 +158,16 @@ export default function AllFeedback() {
                       <TableCell className="px-5 py-3">
                         {f.email || "-"}
                       </TableCell>
+                      <TableCell className="px-5 py-3">
+                        {new Date(f?.createdAt || "").toLocaleString() || "-"}
+                      </TableCell>
                     </TableRow>
                   ))}
                 {feedbacks?.length === 0 && (
                   <TableRow className="hover:bg-muted/50">
                     <TableCell
                       className="font-medium px-5 py-3 text-center"
-                      colSpan={4}
+                      colSpan={5}
                     >
                       {t("noFeedback")}
                     </TableCell>
@@ -148,19 +210,23 @@ export default function AllFeedback() {
       )}
       {!isLoading && (
         <>
-          <Table className="bg-white">
+          <Table className="bg-white mt-6">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
                 <TableHead>{t("message")}</TableHead>
                 <TableHead>{t("name")}</TableHead>
                 <TableHead>{t("email")}</TableHead>
+                <TableHead>{t("createdAt")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {Array.from({ length: 5 }).map((_, i) => (
                 <TableRow key={i} className="hover:bg-muted/50">
                   <TableCell className="font-medium px-5 py-3">
+                    <Skeleton className="h-5 w-full" />
+                  </TableCell>
+                  <TableCell className="px-5 py-3">
                     <Skeleton className="h-5 w-full" />
                   </TableCell>
                   <TableCell className="px-5 py-3">

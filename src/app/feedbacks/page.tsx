@@ -9,12 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
 import { useTranslations } from "next-intl";
+import Spinner from "../component/spinner";
 
 export default function FeedbackForm() {
   // const locale = useLocale();
   const [isAnonymous, setIsAnonymous] = useState(false);
   const tf = useTranslations("feedback");
   const tc = useTranslations("common");
+  const [loading, setLoading] = useState(false);
   const schema = yup.object().shape({
     name: isAnonymous
       ? yup.string().optional()
@@ -45,7 +47,7 @@ export default function FeedbackForm() {
     //   alert("Please login first!");
     //   return;
     // }
-
+    setLoading(true);
     const res = await fetch("/api/feedback", {
       method: "POST",
       body: JSON.stringify(data),
@@ -60,6 +62,7 @@ export default function FeedbackForm() {
     } else {
       toast.error("Error submitting feedback");
     }
+    setLoading(false);
   };
 
   return (
@@ -149,7 +152,7 @@ export default function FeedbackForm() {
         </div>
 
         <Button type="submit" className="w-full py-2 rounded">
-          Submit
+          {loading && <Spinner size={1} color="white" />} {tf("submit")}
         </Button>
       </form>
     </div>
