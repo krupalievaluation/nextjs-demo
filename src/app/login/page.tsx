@@ -48,23 +48,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-full bg-gray-100 px-4">
+    <div className="flex items-center justify-center h-full bg-gray-100  px-4 form-wrapper">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-sm bg-white p-8 rounded shadow-md space-y-6"
+        className="w-full max-w-sm p-8 rounded shadow-md space-y-6"
       >
-        <h2 className="text-2xl text-gray-800 font-bold text-center">
-          {tl("title")}
-        </h2>
+        <h2 className="text-2xl font-bold text-center">{tl("title")}</h2>
 
         <div>
-          <label className="block text-gray-800 text-sm font-medium mb-1">
+          <label className="block text-sm font-medium mb-1">
             {tl("emailLabel")}
           </label>
           <Input
             type="email"
             {...register("email")}
-            className={`w-full px-4 text-gray-800 py-2 border rounded ${
+            className={`w-full px-4 py-2 border rounded ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
             placeholder={tl("emailPlaceholder")}
@@ -77,13 +75,13 @@ export default function LoginPage() {
         </div>
 
         <div>
-          <label className="block text-gray-800 text-sm font-medium mb-1">
+          <label className="block text-sm font-medium mb-1">
             {tl("passwordLabel")}
           </label>
           <Input
             type="password"
             {...register("password")}
-            className={`w-full px-4 text-gray-800 py-2 border rounded ${
+            className={`w-full px-4 py-2 border rounded ${
               errors.password ? "border-red-500" : "border-gray-300"
             }`}
             placeholder={tl("passwordPlaceholder")}
@@ -95,10 +93,7 @@ export default function LoginPage() {
           )}
         </div>
 
-        <Button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 text-[16px] rounded hover:bg-blue-700 transition "
-        >
+        <Button type="submit" className="button-primary">
           {loading && <Spinner size={1} color="white" />}
           {tl("login")}
         </Button>

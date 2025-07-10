@@ -133,8 +133,8 @@ export default function AllFeedback() {
       </div>
       {isLoading && (
         <>
-          <div className="overflow-x-auto w-full mt-6 shadow rounded-lg bg-white ">
-            <Table className="bg-white">
+          <div className="table-wrapper overflow-x-auto w-full mt-6 shadow rounded-lg ">
+            <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[50px]">#</TableHead>
@@ -209,8 +209,8 @@ export default function AllFeedback() {
         </>
       )}
       {!isLoading && (
-        <>
-          <Table className="bg-white mt-6">
+        <div className="table-wrapper overflow-x-auto w-full mt-6 shadow rounded-lg ">
+          <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">#</TableHead>
@@ -242,7 +242,7 @@ export default function AllFeedback() {
               ))}
             </TableBody>
           </Table>
-        </>
+        </div>
       )}
     </div>
   );

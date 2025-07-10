@@ -24,6 +24,7 @@ export const metadata: Metadata = {
 import Navbar from "./navbar/page";
 import ToasterProvider from "./component/ToasterProvider";
 import LanguageSwitcher from "./component/languageSwitch";
+import { ThemeProvider } from "./component/ThemeProvider";
 
 // // ✅ Connect to MongoDB once when server starts
 // connectToDatabase()
@@ -41,32 +42,35 @@ export default async function RootLayout({
   const locale = (await getLocale()) || "en";
   const messages = await getMessages();
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body className="h-screen overflow-hidden">
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <NextTopLoader />
-          <ToasterProvider />
+        <ThemeProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <NextTopLoader />
+            <ToasterProvider />
 
-          {/* Header */}
-          <header className="h-14 bg-white shadow z-10">
-            <Navbar />
-          </header>
+            {/* Header */}
+            {/* Header */}
+            <header className="h-16 bg-white shadow z-10">
+              <Navbar />
+            </header>
 
-          {/* Main content: full height minus header and footer */}
-          <main
-            className="overflow-y-auto bg-gray-100"
-            style={{ height: "calc(100vh - 60px - 64px)" }} // subtract header (64px) and footer (56px)
-          >
-            {children}
-          </main>
+            {/* Main content: full height minus header and footer */}
+            <main
+              className="overflow-y-auto main-wrapper"
+              style={{ height: "calc(100vh - 64px - 64px)" }} // subtract header (64px) and footer (56px)
+            >
+              {children}
+            </main>
 
-          {/* Footer */}
-          <footer className="h-16 bg-gray-100 border-t py-4">
-            <div className="container mx-auto flex justify-center">
-              <LanguageSwitcher />
-            </div>
-          </footer>
-        </NextIntlClientProvider>
+            {/* Footer */}
+            <footer className="h-16 bg-gray-100 border-t py-4">
+              <div className="container mx-auto flex justify-center">
+                <LanguageSwitcher />
+              </div>
+            </footer>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
 

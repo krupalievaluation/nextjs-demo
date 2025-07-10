@@ -2,6 +2,112 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+/* globals.css */
+
+/* Background & wrapper */
+[data-theme="dark"] .form-wrapper {
+  @apply bg-gray-900 text-white;
+}
+
+/* Form */
+[data-theme="dark"] form {
+  @apply bg-gray-800 text-white border border-gray-700;
+}
+[data-theme="light"] form {
+  @apply bg-white;
+}
+
+/* Form */
+[data-theme="dark"] .main-wrapper {
+  @apply bg-gray-900;
+}
+[data-theme="light"] .main-wrapper {
+  @apply bg-gray-100;
+}
+
+/* Inputs, textarea */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  @apply bg-gray-700 text-white border border-gray-600 placeholder-gray-400;
+}
+
+/* Labels and headings */
+[data-theme="dark"] label,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] th,
+[data-theme="dark"] td {
+  @apply text-white;
+}
+[data-theme="dark"] a {
+  @apply text-white;
+}
+[data-theme="dark"] a.active,
+[data-theme="dark"] a:hover,
+[data-theme="light"] a.active,
+[data-theme="light"] a:hover {
+  @apply text-blue-600 font-semibold;
+}
+[data-theme="light"] label,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] th,
+[data-theme="light"] td {
+  @apply text-gray-800;
+}
+
+/* Table */
+[data-theme="dark"] .table-wrapper {
+  @apply bg-gray-800 text-white;
+}
+[data-theme="light"] .table-wrapper {
+  @apply bg-white text-gray-800;
+}
+
+/* Skeleton style */
+[data-theme="dark"] .skeleton {
+  @apply bg-gray-700;
+}
+[data-theme="light"] .skeleton {
+  @apply bg-gray-200;
+}
+
+.button-primary {
+  @apply w-full py-2 px-4 text-[16px] rounded transition font-semibold 
+         text-white bg-blue-700 hover:bg-blue-800;
+}
+
+[data-theme="dark"] .button-primary {
+  @apply bg-blue-600 hover:bg-blue-500 text-white;
+}
+/* Header */
+[data-theme="dark"] nav {
+  @apply bg-gray-800 text-white border-b border-gray-700;
+}
+
+/* Footer */
+[data-theme="dark"] footer {
+  @apply bg-gray-800 text-white border-t border-gray-700;
+}
+
+[data-theme="light"] nav {
+  @apply bg-white text-gray-800;
+}
+
+[data-theme="light"] footer {
+  @apply bg-gray-100 text-gray-800;
+}
+
+/* Header styles for dark mode */
+[data-theme="dark"] header {
+  @apply bg-gray-900 shadow;
+}
+
+/* Header styles for light mode (optional, default is white) */
+[data-theme="light"] header {
+  @apply bg-white;
+}
 
 @theme inline {
   --color-background: var(--background);

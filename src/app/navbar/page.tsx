@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 // import LanguageSwitcher from "../component/languageSwitch";
 import { useTranslations } from "next-intl";
+import DarkModeToggle from "../component/darkModeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -28,27 +29,62 @@ export default function Navbar() {
   };
 
   const navStyle = (path: string) =>
-    pathname === path ? "text-blue-600 font-semibold" : "text-gray-700";
+    pathname === path
+      ? "text-blue-600 dark:text-blue-400 font-semibold"
+      : "text-gray-700 dark:text-white";
 
   return (
-    <nav className="bg-white shadow p-4 flex justify-between items-center">
-      <div className="text-lg font-bold text-blue-700">{t("title")}</div>
-      {/* <div className="space-x-4">
-        <LanguageSwitcher />
-      </div> */}
-      <div className="space-x-4">
-        <Link href="/" className={navStyle("/")}>
+    // <nav className="bg-white shadow p-4 flex justify-between items-center">
+    //   <div className="text-lg font-bold text-blue-700">
+    //     {t("title")}
+    //     <DarkModeToggle />
+    //   </div>
+    //   <div className="space-x-4">
+    //     <Link href="/" className={navStyle("/")}>
+    //       {t("home")}
+    //     </Link>
+    //     {/* {!isLoggedIn && (
+    //       <>
+    //         <Link href="/register" className={navStyle("/register")}>
+    //           Register
+    //         </Link>
+    //       </>
+    //     )} */}
+    //     {!isLoggedIn && (
+    //       <Link href="/login" className={navStyle("/login")}>
+    //         {t("login")}
+    //       </Link>
+    //     )}
+    //     {isLoggedIn && (
+    //       <>
+    //         <Link
+    //           href="/feedbacks/list"
+    //           className={navStyle("/feedbacks/list")}
+    //         >
+    //           {t("feedbackList")}
+    //         </Link>
+    //       </>
+    //     )}
+    //     {isLoggedIn && (
+    //       <>
+    //         <button
+    //           onClick={logout}
+    //           className="text-red-600 font-semibold ml-2"
+    //         >
+    //           {t("logout")}
+    //         </button>
+    //       </>
+    //     )}
+    //   </div>
+    // </nav>
+    <nav className="shadow p-4 flex justify-between items-center transition-colors duration-300">
+      <div className="text-lg font-bold">{t("title")}</div>
+      <div className="space-x-4 flex items-center">
+        <Link href="/" className={pathname === "/" ? "active" : ""}>
           {t("home")}
         </Link>
-        {/* {!isLoggedIn && (
-          <>
-            <Link href="/register" className={navStyle("/register")}>
-              Register
-            </Link>
-          </>
-        )} */}
         {!isLoggedIn && (
-          <Link href="/login" className={navStyle("/login")}>
+          <Link href="/login" className={pathname === "/login" ? "active" : ""}>
             {t("login")}
           </Link>
         )}
@@ -56,22 +92,19 @@ export default function Navbar() {
           <>
             <Link
               href="/feedbacks/list"
-              className={navStyle("/feedbacks/list")}
+              className={pathname === "/feedbacks/list" ? "active" : ""}
             >
               {t("feedbackList")}
             </Link>
-          </>
-        )}
-        {isLoggedIn && (
-          <>
             <button
               onClick={logout}
-              className="text-red-600 font-semibold ml-2"
+              className="text-red-600 dark:text-red-400 font-semibold ml-2"
             >
               {t("logout")}
             </button>
           </>
         )}
+        <DarkModeToggle />
       </div>
     </nav>
   );

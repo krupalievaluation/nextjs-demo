@@ -66,7 +66,7 @@ export default function FeedbackForm() {
   };
 
   return (
-    <div className="flex items-center justify-center h-full bg-gray-100 px-4">
+    <div className="flex items-center justify-center h-full bg-gray-100  px-4 form-wrapper">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow p-6 rounded w-full max-w-md space-y-5"
@@ -88,6 +88,7 @@ export default function FeedbackForm() {
 
                 trigger(["name", "email"]);
               }}
+              className="bg-gray-300 dark:bg-gray-700 data-[state=checked]:bg-blue-600 transition-colors"
             />
           </label>
         </div>
@@ -151,7 +152,7 @@ export default function FeedbackForm() {
           )}
         </div>
 
-        <Button type="submit" className="w-full py-2 rounded">
+        <Button type="submit" className="button-primary">
           {loading && <Spinner size={1} color="white" />} {tf("submit")}
         </Button>
       </form>
